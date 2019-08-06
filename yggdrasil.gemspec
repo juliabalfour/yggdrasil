@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'graphql', '<= 1.7.10'
+  spec.add_dependency 'graphql', '1.8.10'
   spec.add_dependency 'activerecord', '~> 5.2', '>= 5.2.0'
   spec.add_dependency 'activesupport', '~> 5.2', '>= 5.2.0'
 
@@ -49,4 +49,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rails', '~> 5.2'
   spec.add_development_dependency 'rspec-graphql_matchers'
   spec.add_development_dependency 'generator_spec', '~> 0.9.3'
+  spec.add_development_dependency 'pry'
 end

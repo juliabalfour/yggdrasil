@@ -31,14 +31,13 @@ module Yggdrasil
       default_options = { macro: nil, association: nil, name: nil, description: nil, find_by: nil, id_field: nil, required: false, defaults: {} }
       options.reverse_merge!(default_options)
       options.assert_valid_keys(:macro, :association, :name, :description, :find_by, :id_field, :required, :defaults)
-
       @association = options[:association]
-      @description = options[:name]
+      @description = options[:name].to_s
       @required    = options[:required]
       @id_field    = options[:id_field]
       @defaults    = options[:defaults]
       @macro       = options[:macro]
-      @name        = options[:name].to_sym
+      @name        = options[:name].to_s
 
       @id_field = @id_field.to_s if @id_field.is_a?(Symbol)
 
@@ -64,7 +63,7 @@ module Yggdrasil
         # Add an input for this find by field
         # input(field, name: name)
 
-        @find_by[name] = field
+        @find_by[name] = field.to_s
       end
     end
 
@@ -82,7 +81,7 @@ module Yggdrasil
     #
     # @return [Boolean]
     def has_many?
-      @macro == :belongs_to
+      @macro == :has_many
     end
 
     # Checks whether or not this is a `has_one` nested association.
@@ -317,7 +316,7 @@ module Yggdrasil
       if macro == :has_many && options.key?(:id_field)
         options[:id_field] = :id
       end
-
+      options[:name] = options[:name].nil? ? nil : options[:name].to_s
       field_map = FieldMap.new(reflection.klass, options)
       field_map.instance_exec(&block) if block_given?
       nested.push(field_map)

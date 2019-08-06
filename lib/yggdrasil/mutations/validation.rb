@@ -43,7 +43,7 @@ module Yggdrasil
       invalid_fields = {}
       unknown_errors = []
 
-      changed_models = @changes.group_by { |c| c[:model_instances] }
+      changed_models = @changes.group_by { |c| c[:model_instance] }
       changed_models.reject { |model, _| model.valid? }.each do |model, changes|
 
         # Build a hash to look up the path to a given attribute.

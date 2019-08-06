@@ -8,9 +8,11 @@ require 'rails/all'
 require 'database_cleaner'
 require 'yggdrasil'
 
+Dir["#{File.dirname(__FILE__)}/fixtures/models/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |file| require file }
+
 require 'coveralls'
 Coveralls.wear!
-
 FIXTURES_DIR = "#{File.dirname(__FILE__)}/fixtures"
 GRAPHQL_DIR  = "#{FIXTURES_DIR}/graphql"
 

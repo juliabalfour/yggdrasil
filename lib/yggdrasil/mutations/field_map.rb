@@ -126,7 +126,6 @@ module Yggdrasil
 
       columns = @model.column_names.without(*exclude)
       columns.each do |column|
-
         # Create an input for this attribute & pass any provided options
         input(column, **options[column] || {})
       end
@@ -170,12 +169,17 @@ module Yggdrasil
       # Attempt to get the correct GraphQL type for the attribute
       type = options.fetch(:type) do
         attribute_type = @model.type_for_attribute(attribute)
+        # attribute_type = ActiveRecordDelegator.new(@model).type(attribute).to_s
         if attribute_type.type.nil?
           raise ArgumentError, "The field #{attribute} was not found on the model #{@model.name}"
         end
 
         # This will raise an exception if the type does not exist
         input_type = Yggdrasil::TypeRegistry.get(attribute_type.type).input
+
+        if ["languages", "tags", "videos"].include?(attribute)
+          input_type = input_type.to_list_type
+        end
 
         if attribute_type.class.name.ends_with?('Field')
           input_type = input_type.to_list_type

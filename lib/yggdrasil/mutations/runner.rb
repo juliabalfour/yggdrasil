@@ -44,6 +44,7 @@ module Yggdrasil
     # @raise [ActiveRecord::Rollback]
     def save!
       ActiveRecord::Base.transaction(requires_new: true) do
+
         changed_models.each do |model|
           next if model.destroyed?
 
@@ -94,7 +95,6 @@ module Yggdrasil
           changes.push(change)
         end
       end
-
       changes
     end
 
@@ -139,7 +139,6 @@ module Yggdrasil
     def handle_nested_association(model, inputs, field_map)
       changes = []
       matches = match_inputs_to_models(model, field_map, inputs, changes)
-
       matches.each do |match|
         next if match[:child_model].nil? && match[:child_inputs].nil?
         nested_changes = apply_changes_to_record(match[:child_model], match[:child_inputs], field_map)
@@ -276,7 +275,6 @@ module Yggdrasil
       #     [inputs_to_attributes[name] || name, value]
       #   end
       # end
-
       indexed_inputs = indexed_inputs.to_h
 
       matches = []
@@ -286,7 +284,7 @@ module Yggdrasil
         # If there is no data for this model, consider it deleted
         if matched_data.nil?
           child_model.mark_for_destruction
-          # associated_models.destroy(child_model)
+          associated_models.destroy(child_model)
           changes.push(model_instance: child_model, action: :destroy)
           next
         end

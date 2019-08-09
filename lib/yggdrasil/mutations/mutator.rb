@@ -60,7 +60,6 @@ module Yggdrasil
       def add_input_fields(mutation_type, field_map, prefix)
         # Just Nate being overly pedantic and trying to remove duplicate "Input" words, something to play with if bored...
         # prefix.gsub!(/(^|\s+)(\S+)(($|\s+)\2)+/i, '$1$2')
-
         mutation_type.instance_exec do
           field_map.each do |field|
             type = field[:type]

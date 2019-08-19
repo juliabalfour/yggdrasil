@@ -47,9 +47,8 @@ module Yggdrasil
           normalized.concat(normalize_problems(problem, path: path + Array.wrap(field)))
           next
         end
-
         normalized << {
-          path: path + field,
+          path: field,
           explanation: problem
         }
       end
